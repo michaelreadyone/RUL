@@ -1,0 +1,1 @@
+optimal parameters: K=16, lr=0.001, num_layers=3, hidden_dim=16, result: 0.049259635560624085
