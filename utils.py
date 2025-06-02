@@ -45,16 +45,23 @@ def get_train_test(data_dict, name, window_size=8):
     return train_x, train_y, list(train_data), list(test_data)
 
 def relative_error(y_test, y_predict, threshold):
-    true_re, pred_re = len(y_test), 0
+    print()
+    print(f'len(y_test): {len(y_test)}')
+    print(f'len(y_predict): {len(y_predict)}')
+    print(f'threshold: {threshold}')
+    true_battery_life, pred_battery_life = len(y_test), 0
     for i in range(len(y_test)-1):
-        if y_test[i] <= threshold >= y_test[i+1]:
-            true_re = i - 1
+        if y_test[i] <= threshold and y_test[i+1] <= threshold: # two points setting to avoid one point outlier
+            print(f'y_test[i]: {y_test[i]}, y_test[i+1]: {y_test[i+1]}')
+            print(f'i: {i}')
+            true_battery_life = i - 1
             break
     for i in range(len(y_predict)-1):
-        if y_predict[i] <= threshold:
-            pred_re = i - 1
+        if y_predict[i] < threshold:
+            pred_battery_life = i - 1
             break
-    return abs(true_re - pred_re)/true_re if abs(true_re - pred_re)/true_re<=1 else 1
+    print(f'true_battery_life: {true_battery_life}, pred_battery_life: {pred_battery_life}')
+    return abs(true_battery_life - pred_battery_life)/true_battery_life if abs(true_battery_life - pred_battery_life)/true_battery_life<=1 else 1
 
 def evaluation(y_test, y_predict):
     mse = mean_squared_error(y_test, y_predict)

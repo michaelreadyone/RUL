@@ -79,6 +79,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.auto_hidden = int(feature_size / 2)
         input_size = self.auto_hidden 
+        print(f'feature_size: {feature_size}, hidden_dim: {hidden_dim}, feature_num: {feature_num}, num_layers: {num_layers}, nhead: {nhead}, dropout: {dropout}, noise_level: {noise_level}')
         
         if feature_num == 1:
             # Transformer treated as an Encoder when modeling for a sigle feature like only capacity data
@@ -95,6 +96,7 @@ class Net(nn.Module):
  
     def forward(self, x): 
         batch_size, feature_num, feature_size  = x.shape
+        # print(f'x.shape: {x.shape}')
         out, decode = self.autoencoder(x)
         if feature_num > 1:
             out = out.reshape(batch_size, -1, feature_num)
