@@ -111,6 +111,7 @@ def train_without_noise(Rated_Capacity, K, lr=0.01, feature_size=8, feature_num=
         model = Net(feature_size=feature_size, hidden_dim=hidden_dim, feature_num=K, num_layers=num_layers, 
                     nhead=nhead, dropout=dropout, noise_level=noise_level)
         model = model.to(device)
+        print(model)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         criterion = nn.MSELoss()
 
@@ -127,6 +128,7 @@ def train_without_noise(Rated_Capacity, K, lr=0.01, feature_size=8, feature_num=
             output, decode = model(x)
             output = output.reshape(-1, 1)
             loss = criterion(output, y)
+            print(f'loss per epoch: {loss}')
             optimizer.zero_grad() 
             loss.backward()  
             optimizer.step()                   

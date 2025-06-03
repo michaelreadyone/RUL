@@ -23,13 +23,29 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
     
 
+class Autoencoder(nn.Module):
+    def __init__(self, input_dim, d_model, noise_level=0.01):
+        super().__init__()
+        self.linear1 = nn.Linear(input_dim, d_model)
+        self.noise_level = noise_level
+        
+    def mask(self, x):
+        corrupted_x = x + self.noise_level * torch.randn_like(x)
+        return corrupted_x
+
+    def forward(self, x):
+        x = self.mask(x)
+        x = self.linear1(x)
+        x = F.relu(x)
+        return x
+    
 # Model definition using Transformer
 class TransformerModel(nn.Module):
     def __init__(self, input_dim=1, d_model=64, nhead=4, num_layers=2, dropout=0.2):
         super(TransformerModel, self).__init__()
         print("Using Transformer Model")
         print(f'input_dim: {input_dim}, d_model: {d_model}, nhead: {nhead}, num_layers: {num_layers}, dropout: {dropout}')
-        self.encoder = nn.Linear(input_dim, d_model)
+        self.encoder = Autoencoder(input_dim, d_model)
         self.pos_encoder = PositionalEncoding(d_model, dropout)
         encoder_layers = nn.TransformerEncoderLayer(d_model, nhead)
         self.transformer_encoder = nn.TransformerEncoder(encoder_layers, num_layers)

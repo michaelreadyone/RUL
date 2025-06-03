@@ -25,7 +25,7 @@ def train(Rated_Capacity, K, lr=0.01, feature_size=8, feature_num=1, hidden_dim=
 
         # model = Net(feature_size=feature_size, hidden_dim=hidden_dim, feature_num=K, num_layers=num_layers, 
         #             nhead=nhead, dropout=dropout, noise_level=noise_level)
-        model = TransformerModel(input_dim=feature_size, d_model=32, nhead=1, num_layers=2, dropout=0)
+        model = TransformerModel(input_dim=feature_size, d_model=32, nhead=1, num_layers=3, dropout=0)
         print(model)
         model = model.to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
