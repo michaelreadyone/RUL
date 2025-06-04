@@ -27,3 +27,8 @@ get_train_test() input window_size is the feature_size from train() function.
 使用了传统的transformer来替换paper的Net，其中需要做的变化是把paper里的feature size当成input_dim给传禁区。开始训练后，发现loss会有一些下降，但是非常非常的慢。接下来的尝试：
 
 使用input_dim为1试试，不知道paper里重复了K次的数据是为了什么？这个是loss减少的关键么？
+
+
+现在基本把code modulization出来了。接下来就是对比一下paper model和传统model里的参数，可以将他们逐层对比，找到loss降低的终极原因。
+
+或者自己从传统model开始，做regression工作，然后告诉GPT，问问GPT为什么loss不能降，如何在model里改进。听起来不错。
